@@ -16,11 +16,19 @@ class Node
   def remove
     # optional but useful, connects previous link to next link
     # and removes self from list.
+    self.prev.next = self.next
+    self.next.prev = self.prev
   end
 end
 
 class LinkedList
+  include Enumerable
+
   def initialize
+    @head = Node.new
+    @tail = Node.new
+    @head.next = @tail
+    @tail.prev = @head
   end
 
   def [](i)
@@ -29,13 +37,18 @@ class LinkedList
   end
 
   def first
+    @head
   end
 
   def last
+    @tail
   end
 
   def empty?
+    return (@head.next == @tail && @tail.prev == @head)
+  
   end
+
 
   def get(key)
   end
@@ -44,6 +57,9 @@ class LinkedList
   end
 
   def append(key, val)
+    new_end = Node.new(key, val)
+    @tail.next = new_end
+    new_end.prev = @tail
   end
 
   def update(key, val)
